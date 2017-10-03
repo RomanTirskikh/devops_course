@@ -1,0 +1,39 @@
+Vagrant.configure("2") do |config|
+	config.vm.box_check_update = false
+		
+	config.vm.define "tomcat" do |tomcat|
+		tomcat.vm.box = "ubuntu/trusty64"
+		tomcat.vm.network "public_network"
+		tomcat.vm.hostname = "localtirskikh1"
+		tomcat.vm.synced_folder "D:\\vgshare", "/home/vagrant/share", type: "nfs"
+		tomcat.vm.provider "virtualbox" do |vb|
+			vb.name = "ubuntu_tomcat"
+			vb.memory = "4096"
+			vb.cpus = 1
+			tomcat.vm.provision :shell,
+				inline: "
+						sudo apt-get -y update 
+						sudo apt-get -y install tomcat7
+						"
+		end
+	end
+		
+	config.vm.define "nginx" do |nginx|
+		nginx.vm.box = "ubuntu/trusty64"
+		nginx.vm.network "public_network"
+		nginx.vm.hostname = "localtirskikh0"
+		nginx.vm.synced_folder "D:\\vgshare", "/home/vagrant/share", type: "nfs"
+		nginx.vm.provider "virtualbox" do |vb|
+			vb.name = "ubuntu_nginx"
+			vb.memory = "2048"
+			vb.cpus = 1
+			nginx.vm.provision :shell, 
+				inline: "
+						sudo apt-get -y update 
+						sudo apt-get -y install nginx
+						"
+			nginx.vm.provision :shell, :path => "add_install.sh"
+		end	
+	end
+end
+	

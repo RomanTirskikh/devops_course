@@ -1,0 +1,4 @@
+[nginx_tomcat]
+
+localngxtmc ansible_port=22 ansible_connection=ssh ansible_user=vagrant role_path="/home/worker/cm/ansible/day-2/roles/"
+

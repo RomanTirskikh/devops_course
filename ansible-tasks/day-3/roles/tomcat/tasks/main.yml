@@ -1,0 +1,56 @@
+---
+# tasks file for tomcat
+- name: adding group tomcat
+  group:
+    name: '{{ group_name }}'
+    state: present
+  become: yes
+  become_method: sudo
+
+- name: adding user tomcat
+  user:
+    name: '{{ user_name }}'
+    group: '{{ group_name }}'
+    state: present
+  become: yes
+  become_method: sudo
+
+- name: check tomcat archive existin
+  stat:
+    path: "/tmp/apache-tomcat-{{ tomcat_version }}.tar.gz"
+  register: p
+
+- name: if tomcat archive non existin
+  when: p.stat.exists == false
+  command: echo
+  notify:
+  - "downloading tomcat v.{{ tomcat_version }}"
+  - creating opt tomcat directory
+  - unarchive tomcat
+  - check tomcat old directory
+  - remove old directory
+  - copy tomcat
+  - changin opt tomcat directory owner and group
+  - add tomcat conf
+  - add tomcat.service
+  - chmod for tomcat.service
+  - reload configuration
+  - start tomcat as service
+  - wait for tomcat to start
+
+- name: if tomcat archive existin
+  when: p.stat.exists == true
+  command: echo
+  notify:
+  - creating opt tomcat directory
+  - unarchive tomcat
+  - check tomcat old directory
+  - remove old directory
+  - copy tomcat
+  - changin opt tomcat directory owner and group
+  - add tomcat conf
+  - add tomcat.service
+  - chmod for tomcat.service
+  - reload configuration
+  - start tomcat as service
+  - wait for tomcat to start

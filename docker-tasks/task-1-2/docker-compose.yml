@@ -1,0 +1,29 @@
+version: '2'
+services:
+
+  tomcat:
+      build:
+        context: .
+        dockerfile: ./tomcat.Dockerfile
+      image: ubuntu/tomcat:v1
+      container_name: tomcat
+
+
+  nginx:
+      build:
+        context: .
+        dockerfile: ./web.Dockerfile
+      container_name: nginx
+      image: ubuntu/nginx:v1
+      ports: [ "80:80" ]
+      depends_on:
+        - "webapp"
+
+  webapp:
+      build:
+        context: .
+        dockerfile: ./application.Dockerfile
+      container_name: webapp
+      image: ubuntu/webapp:v1
+      depends_on:
+        - "tomcat"

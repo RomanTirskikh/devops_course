@@ -1,0 +1,23 @@
+---
+# tasks file for nginx
+- name: install nginx
+  apt:
+    name: nginx
+    state: latest
+
+- name: provisining tomcat thrue nginx
+  shell: |
+      echo '
+      server {
+      listen 80;
+      server_name localngxtmc;
+
+      location / {
+      proxy_pass http://127.0.0.1:8080/;
+        }
+      }' > /etc/nginx/conf.d/tomcat_proxy.conf
+  args:
+    executable: /bin/bash
+
+- name: restart nginx
+  command: nginx -s reload

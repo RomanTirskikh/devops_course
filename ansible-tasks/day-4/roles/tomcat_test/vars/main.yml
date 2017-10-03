@@ -1,0 +1,7 @@
+---
+# vars file for tomcat_chk
+user_name: tomcat
+group_name: tomcat
+tomcat_version: 8.0.46
+tomcat_home: /opt/tomcat/
+http_port: 8080

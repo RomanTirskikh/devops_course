@@ -1,0 +1,18 @@
+---
+# tasks file for java_chk
+- name: check java home existin
+  stat:
+    path: /usr/bin/java
+  register: p
+
+- name: java version check
+  when: p.stat.exists == true
+  command: java -version
+  register: myjava
+  ignore_errors: yes
+
+- debug:
+    msg:
+    - '{{ p.stat.path }}'
+    - '{{ myjava.stderr }}'
+  when: myjava.stderr is defined

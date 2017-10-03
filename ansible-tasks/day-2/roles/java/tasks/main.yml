@@ -1,0 +1,21 @@
+---
+# tasks file for java
+
+- name: add java repository
+  apt_repository:
+    repo: 'ppa:webupd8team/java'
+    codename: 'trusty'
+
+- name: apt-get update
+  apt:
+    update_cache: yes
+
+- name: accept java license
+  debconf: name="oracle-java{{ java_version }}-installer" question='shared/accepted-oracle-license-v1-1' value='true' vtype='select'
+
+- name: install oracle java
+  apt: name={{item}} state=latest
+  with_items:
+    - "oracle-java{{ java_version }}-installer"
+    - ca-certificates
+    - "oracle-java{{ java_version }}-set-default"

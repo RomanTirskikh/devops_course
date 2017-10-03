@@ -1,0 +1,17 @@
+---
+# tasks file for nginx_chk
+- name: check nginx home existin
+  stat:
+    path: /usr/sbin/nginx
+  register: p
+
+- name: nginx version check
+  command: nginx -v
+  register: mynginx
+  ignore_errors: yes
+
+- debug:
+    msg:
+    - '{{ p.stat.path }}'
+    - '{{ mynginx.stderr }}'
+  when: p.stat.exists == true

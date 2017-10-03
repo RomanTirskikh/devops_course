@@ -1,0 +1,32 @@
+---
+# tasks file for java_test
+- name: check java home existin
+  stat:
+    path: /usr/bin/java
+  register: p
+
+- name: java version check
+  when: p.stat.exists == true
+  command: java -version
+  register: myjava
+  ignore_errors: yes
+
+- debug:
+    msg:
+    - '{{ p.stat.path }}'
+    - '{{ myjava.stderr }}'
+  when: myjava.stderr is defined
+
+- name: "verify install java{{ java_version }}"
+  apt:
+    name: "oracle-java{{ java_version }}-set-default"
+    state: present
+  register: java_already_install
+  become: yes
+  become_method: sudo
+  ignore_errors: True
+
+- debug:
+    msg:
+    - '{{ java_already_install }}'
+#  when: java_already_install is sucssesed

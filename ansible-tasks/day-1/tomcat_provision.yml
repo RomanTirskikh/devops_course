@@ -1,0 +1,115 @@
+--- # Tomcat provisioning ansible-playbook for day-1 task
+- hosts: all
+  become: yes
+  become_method: sudo
+  vars: # define variables
+    tomcat_version: 8.0.46
+    java_version: 8
+    user_name: tomcat
+  tasks:
+
+  - name: updating and installing java repo
+    shell:
+      add-apt-repository ppa:webupd8team/java
+    args:
+      executable: /bin/bash
+
+  - name: apt-get update
+    apt:
+      update_cache: yes
+
+  - name: accept java license
+    debconf: name="oracle-java{{ java_version }}-installer" question='shared/accepted-oracle-license-v1-1' value='true' vtype='select'
+
+  - name: install oracle java
+    apt: name={{item}} state=latest
+    with_items:
+      - "oracle-java{{ java_version }}-installer"
+      - ca-certificates
+      - "oracle-java{{ java_version }}-set-default"
+
+  - name: adding group tomcat
+    group:
+      name: '{{ user_name }}'
+      state: present
+
+  - name: adding user tomcat
+    user:
+      name: '{{ user_name }}'
+      group: '{{ user_name }}'
+
+  - name: downloading tomcat
+    get_url:
+      url: "http://archive.apache.org/dist/tomcat/tomcat-8/v{{ tomcat_version }}/bin/apache-tomcat-{{ tomcat_version }}.tar.gz"
+      dest: "/tmp/apache-tomcat-{{ tomcat_version }}.tar.gz"
+      owner: '{{ user_name }}'
+
+  - name: creating opt tomcat directory
+    file:
+      path: "/opt/tomcat"
+      state: directory
+      mode: 0755
+
+  - name: unarchive tomcat
+    unarchive:
+      src: "/tmp/apache-tomcat-{{ tomcat_version }}.tar.gz"
+      dest: "/tmp"
+      remote_src: yes
+
+  - name: copy tomcat
+    command: "mv /tmp/apache-tomcat-{{ tomcat_version }} /opt/tomcat/{{ tomcat_version }}"
+
+  - name: changin opt tomcat directory owner and group
+    file:
+      path: "/opt/tomcat/{{ tomcat_version }}"
+      state: touch
+      owner: '{{ user_name }}'
+      group: '{{ user_name }}'
+      mode: 0755
+
+  - name: add /etc/init/tomcat.conf
+    shell: |
+        echo '
+        description "Tomcat Server"
+
+        start on runlevel [2345]
+        stop on runlevel [!2345]
+        respawn
+        respawn limit 10 5
+
+        setuid tomcat
+        setgid tomcat
+
+        env JAVA_HOME=/usr/lib/jvm/java-{{ java_version }}-oracle/jre
+        env CATALINA_HOME=/opt/tomcat/{{ tomcat_version }}
+
+        # Modify these options as needed
+        env JAVA_OPTS="-Djava.awt.headless=true -Djava.security.egd=file:/dev/./urandom"
+        env CATALINA_OPTS="-Xms512M -Xmx1024M -server -XX:+UseParallelGC"
+
+        exec $CATALINA_HOME/bin/catalina.sh run
+        # startup.sh
+
+        # cleanup temp directory after stop
+        post-stop script
+           rm -rf $CATALINA_HOME/temp/*
+        end script' > /etc/init/tomcat.conf
+    args:
+      executable: /bin/bash
+
+  - name: reload configuration
+    shell:
+        initctl reload-configuration
+    args:
+      executable: /bin/bash
+
+  - name: start tomcat as service
+    service:
+      name: tomcat
+      state: restarted
+  handlers:
+
+  - name: start tomcat
+    service:
+      name: tomcat
+      state: restarted

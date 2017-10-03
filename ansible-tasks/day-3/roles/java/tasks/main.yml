@@ -1,0 +1,74 @@
+---
+# tasks file for java
+- name: check java home existin
+  stat:
+    path: /usr/bin/java
+  register: p
+
+- name: java version check
+  when: p.stat.exists == true
+  command: java -version
+  register: myjava
+  ignore_errors: yes
+
+- name: debug java version check
+  debug:
+    msg:
+    - '{{ p.stat.path }}'
+    - '{{ myjava.stderr }}'
+  when: myjava.stderr is defined
+
+- name: apt-get update
+  apt:
+    update_cache: yes
+  become: yes
+  become_method: sudo
+
+- name: verify install python
+  apt:
+    name: python-software-properties
+    state: latest
+  register: python_already_install
+  become: yes
+  become_method: sudo
+
+- name: "verify install java{{ java_version }}"
+  apt:
+    name: "oracle-java{{ java_version }}-set-default"
+    state: present
+  register: java_already_install
+  become: yes
+  become_method: sudo
+  ignore_errors: True
+
+- name: installing java repository
+  when: java_already_install is failed
+  apt_repository:
+    repo: 'ppa:webupd8team/java'
+    codename: 'trusty'
+  become: yes
+  become_method: sudo
+
+- name: apt-get update
+  when: java_already_install is failed
+  apt:
+    update_cache: yes
+  become: yes
+  become_method: sudo
+
+- name: accept java license
+  when: java_already_install is failed
+  debconf: name="oracle-java{{ java_version }}-installer" question='shared/accepted-oracle-license-v1-1' value='true' vtype='select'
+  become: yes
+  become_method: sudo
+  register: license_accept
+
+- name: install oracle java
+  when: java_already_install is failed
+  apt: name={{item}} state=latest
+  with_items:
+    - "oracle-java{{ java_version }}-installer"
+    - ca-certificates
+    - "oracle-java{{ java_version }}-set-default"
+  become: yes
+  become_method: sudo

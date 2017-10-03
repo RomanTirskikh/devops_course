@@ -1,0 +1,16 @@
+---
+# this playbook deploys java tomcat nginx
+- hosts: nginx_tomcat
+  become: yes
+  become_method: sudo
+  pre_tasks:
+    - debug: var=test
+  roles:
+
+    - { role: java_test, when: test == 'yes' }
+    - { role: tomcat_test, when: test == 'yes' }
+    - { role: nginx_test, when: test == 'yes' }
+
+    - { role: java, when: test == 'no' }
+    - { role: tomcat, when: test == 'no' }
+    - { role: nginx, when: test == 'no' }

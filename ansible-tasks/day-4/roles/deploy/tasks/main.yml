@@ -1,0 +1,45 @@
+---
+# tasks file for deploy
+- name: install curl
+  apt:
+    name: curl
+    state: latest
+  become: yes
+  become_method: sudo
+
+- name: deploy war
+  deploy_war:
+    user: super
+    passwd: super
+    war: "/vagrant/mnt-lab.war"
+    url: "http://127.0.0.1:8080/manager/text/deploy?path=/mnt-lab&update=true"
+  register: deploy_rez
+  ignore_errors: yes
+
+- name: add deploy time & user
+  shell: |
+    echo $(date +"%T") $(whoami) > '{{ tomcat_home }}''{{ tomcat_version }}'/webapps/deploy-info.txt
+  args:
+    executable: /bin/bash
+  become: yes
+  become_method: sudo
+
+- name: debug
+  debug:
+    msg: '{{ deploy_rez }}'
+
+- name: mnt-lab is reacheble
+  uri:
+    url: http://127.0.0.1:8080/mnt-lab/
+    return_content: yes
+    status_code: 500
+  register: mntlab
+
+- name: Fail if BUILD DETAILS is not in the page content
+  fail:
+  when: "'BUILD DETAILS:' not in mntlab.content"
+
+- name: mnt-lab is unreacheble
+  debug:
+    msg: 'Application unreacheble'
+  when: mntlab.content is undefined

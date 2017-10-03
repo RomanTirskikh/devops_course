@@ -1,0 +1,17 @@
+version: '2'
+services:
+
+  jenkins:
+      container_name: jenkins
+      image: jenkins
+      ports: [ "8080:8080" ]
+      volumes_from: [ "gradle" ]
+      depends_on:
+        - "gradle"
+
+  gradle:
+      build:
+        context: .
+        dockerfile: ./gradle.Dockerfile
+      container_name: gradle
+      image: gradle

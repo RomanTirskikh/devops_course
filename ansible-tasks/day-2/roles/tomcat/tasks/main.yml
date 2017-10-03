@@ -1,0 +1,27 @@
+---
+# tasks file for tomcat
+- name: adding group tomcat
+  group:
+    name: '{{ group_name }}'
+    state: present
+
+- name: adding user tomcat
+  user:
+    name: '{{ user_name }}'
+    group: '{{ group_name }}'
+    state: present
+
+- name: downloading tomcat
+  get_url:
+    url: "http://archive.apache.org/dist/tomcat/tomcat-8/v{{ tomcat_version }}/bin/apache-tomcat-{{ tomcat_version }}.tar.gz"
+    dest: "/tmp/apache-tomcat-{{ tomcat_version }}.tar.gz"
+    owner: '{{ user_name }}'
+  notify:
+  - creating opt tomcat directory
+  - unarchive tomcat
+  - copy tomcat
+  - changin opt tomcat directory owner and group
+  - add tomcat conf
+  - reload configuration
+  - start tomcat as service
+  - wait for tomcat to start
