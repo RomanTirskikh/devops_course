@@ -71,6 +71,7 @@ output "child_memory" {
   value = "${module.child.received}"
 }
 
+# Create backend consul
 terraform {
   backend "consul" {
     address = "demo.consul.io"
