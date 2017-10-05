@@ -11,7 +11,7 @@ resource "docker_image" "mynginx" {
 # Create a image tomcat
 resource "docker_image" "mytomcat" {
   name = "tomcat:latest"
-  keep_locally = "true"
+#  keep_locally = "true"
 }
 
 # Create a container tomcat
