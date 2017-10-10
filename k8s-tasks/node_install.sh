@@ -13,6 +13,8 @@ EOF
 
 apt-get -y update && apt-get install -y git openjdk-8-jre docker.io kubelet kubeadm kubectl kubernetes-cni
 
-#su - ubuntu | $(cat /vagrant/kube.txt | grep "kubeadm join") --skip-preflight-checks
+kubeadm reset 
+#применяем join для присоединения нода к мастеру
+#$(cat /vagrant/kube.txt | grep "kubeadm join") --skip-preflight-checks
 
 sleep 3
