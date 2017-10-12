@@ -2,23 +2,24 @@
 
 sudo -i
 
-#sysctl net.bridge.bridge-nf-call-iptables=1
+sysctl net.bridge.bridge-nf-call-iptables=1
 
-#apt-get -y update && apt-get install -y apt-transport-https #ubuntu-desktop
+apt-get -y update && apt-get install -y apt-transport-https #ubuntu-desktop
 
-#curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
-#cat <<EOF >/etc/apt/sources.list.d/kubernetes.list
-#deb http://apt.kubernetes.io/ kubernetes-xenial main
-#EOF
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+cat <<EOF >/etc/apt/sources.list.d/kubernetes.list
+deb http://apt.kubernetes.io/ kubernetes-xenial main
+EOF
 
-#apt-get -y update && apt-get install -y git openjdk-8-jre docker.io kubelet kubeadm kubectl kubernetes-cni
+apt-get -y update && apt-get install -y git openjdk-8-jre docker.io kubelet kubeadm kubectl kubernetes-cni
 
-#kubeadm reset && kubeadm init --pod-network-cidr=10.244.0.0/16 --apiserver-advertise-address=$(ifconfig enp0s9|xargs|awk '{print $7}'|sed -e 's/[a-z]*:/''/') > /vagrant/kube.txt #--skip-preflight-checks 
-#sleep 10
-#su - ubuntu | mkdir -p /home/ubuntu/.kube && sudo cp /etc/kubernetes/admin.conf /home/ubuntu/.kube/config && sudo chown ubuntu:ubuntu /home/ubuntu/.kube/config
-#sleep 3
+kubeadm reset && kubeadm init --pod-network-cidr=10.244.0.0/16 --apiserver-advertise-address=$(ifconfig enp0s9|xargs|awk '{print $7}'|sed -e 's/[a-z]*:/''/') > /vagrant/kube.txt #--skip-preflight-checks 
+sleep 10
 
-cat /vagrant/grafana.sh | sh
+su - ubuntu | mkdir -p /home/ubuntu/.kube && sudo cp /etc/kubernetes/admin.conf /home/ubuntu/.kube/config && sudo chown ubuntu:ubuntu /home/ubuntu/.kube/config
+sleep 3
+
+#cat /vagrant/grafana.sh | sh
 
 #создаем сеть для нодов
 #su - ubuntu | kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/v0.8.0/Documentation/kube-flannel.yml
