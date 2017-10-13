@@ -3,12 +3,12 @@ kind: Service
 metadata: 
     name: nginx-svc
     labels:
-        app: nginxv1
+        app: nginx
 spec:
     type: NodePort
     ports:
     -   port: 80
-        nodePort: 300003
+        nodePort: 30003
         protocol: TCP
     selector:
-        app: nginxv1
+        app: nginx

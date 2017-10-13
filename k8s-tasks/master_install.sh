@@ -2,7 +2,7 @@
 
 sudo -i
 
-sysctl net.bridge.bridge-nf-call-iptables=1
+#sysctl net.bridge.bridge-nf-call-iptables=1
 
 apt-get -y update && apt-get install -y apt-transport-https #ubuntu-desktop
 
@@ -11,22 +11,28 @@ cat <<EOF >/etc/apt/sources.list.d/kubernetes.list
 deb http://apt.kubernetes.io/ kubernetes-xenial main
 EOF
 
-apt-get -y update && apt-get install -y git openjdk-8-jre docker.io kubelet kubeadm kubectl kubernetes-cni
+apt-get -y update && apt-get install -y git openjdk-8-jre docker.io kubeadm=1.8.0-00 kubelet=1.8.0-00 kubectl=1.8.0-00
 
-kubeadm reset && kubeadm init --pod-network-cidr=10.244.0.0/16 --apiserver-advertise-address=$(ifconfig enp0s9|xargs|awk '{print $7}'|sed -e 's/[a-z]*:/''/') > /vagrant/kube.txt #--skip-preflight-checks 
-sleep 10
+kubeadm reset && kubeadm init --pod-network-cidr=10.244.0.0/16 --apiserver-advertise-address=$(ifconfig enp0s9|xargs|awk '{print $7}'|sed -e 's/[a-z]*:/''/') > /vagrant/kube.txt && sleep 3
 
 su - ubuntu | mkdir -p /home/ubuntu/.kube && sudo cp /etc/kubernetes/admin.conf /home/ubuntu/.kube/config && sudo chown ubuntu:ubuntu /home/ubuntu/.kube/config
 sleep 3
 
-#cat /vagrant/grafana.sh | sh
+#позволяет даунгрэйд к указанной версии
+#!!!!!!!kubeadm upgrade apply v1.8.0 --force
 
-#создаем сеть для нодов
-#su - ubuntu | kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/v0.8.0/Documentation/kube-flannel.yml
-#su - ubuntu | kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/v0.8.0/Documentation/kube-flannel-rbac.yml
-#устанавливаем роль для dashboard
+######!!!создаем сеть для нодов!!!#####
+#kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/v0.9.0/Documentation/kube-flannel.yml
+#!!su - ubuntu | kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/v0.8.0/Documentation/kube-flannel.yml
+#!!su - ubuntu | kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/v0.8.0/Documentation/kube-flannel-rbac.yml
+
+#By default, your cluster will not schedule pods on the master for security reasons. 
+#If you want to be able to schedule pods on the master, e.g. for a single-machine Kubernetes cluster for development, run:
+#kubectl taint nodes --all node-role.kubernetes.io/master-
+
+######!!!устанавливаем роль для dashboard!!!#####
 #su - ubuntu | kubectl create -f /vagrant/kube-dashboard-rbac.yml
-###############
+######!!!создаем сертификаты
 #Generate private key and certificate signing request
 #$ mkdir certs
 #$ cd certs
@@ -47,7 +53,7 @@ sleep 3
 #The dashboard.crt file is your certificate suitable for use with Dashboard along with the dashboard.key private key.
 #$ kubectl create secret generic kubernetes-dashboard-certs --from-file=$HOME/certs -n kube-system
 #устанавливаем dashboard
-#!!!ONLY HTTPS ACCESS!!! su - ubuntu | kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/recommended/kubernetes-dashboard.yaml #install Dashboard on Kubernetes
+#!!!ONLY HTTPS ACCESS!!! su - ubuntu | kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/recommended/kubernetes-dashboard.yaml
 #правим конфиг dashboard
 # kubectl -n kube-system edit service kubernetes-dashboard
 # маняем 
@@ -64,7 +70,7 @@ sleep 3
 #!!!ONLY HTTP ACCESS!!! kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/alternative/kubernetes-dashboard.yaml
 ###############
 #устанавливаем heapster и grafana желательно после подключения нодов
-#su - ubuntu | git clone https://github.com/kubernetes/heapster.git && kubectl create -f ./heapster/deploy/kube-config/influxdb/ && kubectl create -f ./heapster/deploy/kube-config/rbac/heapster-rbac.yaml 
+#su - ubuntu | git clone https://github.com/kubernetes/heapster.git && kubectl create -f ./heapster/deploy/kube-config/rbac/heapster-rbac.yaml && kubectl create -f ./heapster/deploy/kube-config/influxdb/ 
 ###############
 #!!! НЕ ОБЯЗАТЕЛЬНО!!! запускаем dashboard локально
 #kubectl proxy
@@ -92,3 +98,6 @@ sleep 3
 #[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 #EOF
 #su - ubuntu | nvm install node && nvm run node --version && npm install --global gulp-cli
+
+########!!!!!!!!!ConfigMap For Nginx!!!!!!!!!!!!###########
+#kubectl create configmap nginx-configmap --from-file=/vagrant/nginx_configmap.yml
