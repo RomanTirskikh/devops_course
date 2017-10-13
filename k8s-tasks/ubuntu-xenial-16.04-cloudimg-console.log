@@ -712,10 +712,91 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDRDtlKVCHqFJRqUqBWj07WM7O11tySVirrUpPaTQ+G
 -----END SSH HOST KEY KEYS-----
 [   32.998792] cloud-init[1451]: Cloud-init v. 0.7.9 running 'modules:final' at Fri, 13 Oct 2017 06:44:06 +0000. Up 32.42 seconds.
 [   33.024664] cloud-init[1451]: ci-info: no authorized ssh keys fingerprints found for user ubuntu.
-[   33.032683] cloud-init[1451]: Cloud-init v. 0.7.9 finished at Fri, 13 Oct 2017 06:44:06 +0000. Datasource DataSourceNoCloud [seed=/dev/sdb][dsmode=net].  Up 32.98 seconds
-[[0;32m  OK  [0m] Started Execute cloud user/final scripts.
-[[0;32m  OK  [0m] Reached target Cloud-init target.
-
-Ubuntu 16.04.3 LTS ubuntu-xenial ttyS0
-
-ubuntu-xenial login: 
+[   33.032683] cloud-init[1451]: Cloud-init v. 0.7.9 finished at Fri, 13 Oct 2017 06:44:06 +0000. Datasource D[[0;32m  OK  [0m] Stopped target Graphical Interface [[0;32m  OK  [0m] Unmounted /var/lib/lxcfs.
+[[0;32m  OK  [0m] Stopped Accounts Service.
+[[0;32m  OK  [0m] Stopped Regular background program processing daemon.
+[[0;32m  OK  [0m] Stopped ACPI event daemon.
+[[0;32m  OK  [0m] Stopped Snappy daemon.
+[[0;32m  OK  [0m] Stopped Deferred execution scheduler.
+[[0;32m  OK  [0m] Stopped System Logging Service.
+[[0;32m  OK  [0m] Stopped Authenticate and Authorize Users to Run Privileged Tasks.
+[[0;32m  OK  [0m] Stopped Getty on tty1.
+[[0;32m  OK  [0m] Stopped Serial Getty on ttyS0.
+[[0;32m  OK  [0m] Stopped OpenBSD Secure Shell server.
+[[0;32m  OK  [0m] Stopped User Manager for UID 1000.
+[[0;32m  OK  [0m] Stopped Session 2 of user ubuntu.
+[[0;32m  OK  [0m] Stopped kubelet: The Kubernetes Node Agent.
+[[0;32m  OK  [0m] Stopped D-Bus System Message Bus.
+[[0;32m  OK  [0m] Stopped LSB: Set up cgroupfs mounts..
+[[0;32m  OK  [0m] Stopped Unattended Upgrades Shutdown.
+[[0;32m  OK  [0m] Stopped Ubuntu FAN network setup.
+[[0;32m  OK  [0m] Stopped Session 11 of user ubuntu.
+[[0;32m  OK  [0m] Stopped FUSE filesystem for LXC.
+[[0;32m  OK  [0m] Unmounted /var/lib/docker/aufs/mnt/...a2151516907cb8ffa6a55204ef19c13.
+[[0;32m  OK  [0m] Unmounted /var/lib/docker/aufs/mnt/...9cd2691ea877af3c950e452887f1d5d.
+[[0;32m  OK  [0m] Unmounted /var/lib/docker/aufs/mnt/...05d8dd515f02507a77beda1ebe9bf8c.
+[[0;32m  OK  [0m] Unmounted /var/lib/docker/aufs/mnt/...5b9a30ff0509cf822d4f61c94e49c8e.
+[[0;32m  OK  [0m] Unmounted /run/docker/netns/e62cc4dcd51d.
+[[0;32m  OK  [0m] Unmounted /var/lib/docker/container...b14b8dfeb1f8a662ac6743bd006/shm.
+[[0;32m  OK  [0m] Unmounted /var/lib/docker/aufs/mnt/...3dad3259fca936fb609686ba9c91318.
+[[0;32m  OK  [0m] Unmounted /var/lib/docker/aufs/mnt/...4f421cb9241405499868b978c6ab698.
+[[0;32m  OK  [0m] Unmounted /var/lib/docker/aufs/mnt/...a89951e1be2e0e37e09233080edba05.
+[[0;32m  OK  [0m] Unmounted /var/lib/docker/aufs/mnt/...4d648297b42a78253a6d2f2d77c8d9a.
+[[0;32m  OK  [0m] Unmounted /var/lib/docker/aufs/mnt/...8f0f7322e040a9454f441d2cf1d1488.
+[[0;32m  OK  [0m] Unmounted /var/lib/docker/aufs/mnt/...a19491d0b8d138e2a78c069cd58d261.
+[[0;32m  OK  [0m] Unmounted /var/lib/docker/container...4403f9cb06f9a99aa7e583b2531/shm.
+[[0;32m  OK  [0m] Unmounted /var/lib/docker/aufs/mnt/...74b5b3c6be5a4152849a089c96216e7.
+[[0;32m  OK  [0m] Unmounted /var/lib/docker/container...6b48b9713397cc98959d564ba6f/shm.
+[[0;32m  OK  [0m] Unmounted /var/lib/docker/aufs/mnt/...d72715477d152dfe2283d29d259b700.
+[[0;32m  OK  [0m] Unmounted /var/lib/docker/aufs/mnt/...158642368f397cb86734242a502f4aa.
+[[0;32m  OK  [0m] Unmounted /run/docker/netns/45a92c6477a3.
+[[0;32m  OK  [0m] Unmounted /var/lib/docker/container...926cd488d2e6f49b76dc3b1e34c/shm.
+[[0;32m  OK  [0m] Unmounted /var/lib/docker/aufs/mnt/...d5f88bbed869a3d28f0a1ad2e0a27b0.
+[[0;32m  OK  [0m] Unmounted /run/docker/netns/f9512d6dfbe8.
+[[0;32m  OK  [0m] Unmounted /var/lib/docker/container...1468c578a771d9117a6dc186559/shm.
+[[0;32m  OK  [0m] Unmounted /var/lib/docker/aufs/mnt/...f3914b81843d665c0af472ef705cd36.
+[[0;32m  OK  [0m] Unmounted /var/lib/docker/aufs/mnt/...b2179b6cc09e6e24cafdbd9f9991eba.
+[[0;32m  OK  [0m] Unmounted /run/docker/netns/6c1e248fd0eb.
+[[0;32m  OK  [0m] Unmounted /var/lib/docker/container...197737f0377820939798e4a7a4f/shm.
+[[0;32m  OK  [0m] Unmounted /var/lib/docker/aufs/mnt/...c50b7aa5e52decc5753c2b43f00c59d.
+[[0;32m  OK  [0m] Unmounted /run/docker/netns/c5cd4e83dd30.
+[[0;32m  OK  [0m] Unmounted /var/lib/docker/container...8a63efa2e13dc768cd43878a930/shm.
+[[0;32m  OK  [0m] Unmounted /var/lib/docker/aufs/mnt/...d82ab0ab65ef502a6a31c5e205ca6bc.
+[[0;32m  OK  [0m] Unmounted /run/docker/netns/4a9ccb6e8f84.
+[[0;32m  OK  [0m] Unmounted /var/lib/docker/container...b1146fcfc3f8a3240ca85969e2c/shm.
+[[0;32m  OK  [0m] Unmounted /var/lib/docker/aufs/mnt/...4c33b591def804ff898776093f07c16.
+[[0;32m  OK  [0m] Unmounted /var/lib/docker/aufs/mnt/...4e5fe22e53188fad95f9e5c0a1a0070.
+[[0;32m  OK  [0m] Unmounted /run/docker/netns/d97c224db3ae.
+[[0;32m  OK  [0m] Unmounted /var/lib/docker/container...fee4882ee448a643f11cb9b801f/shm.
+[[0;32m  OK  [0m] Unmounted /var/lib/docker/aufs/mnt/...9391dd63ca61ca5dc94dd99d8ff0706.
+[[0;32m  OK  [0m] Unmounted /var/lib/docker/container...a03637292134f4364164c25f54d/shm.
+[[0;32m  OK  [0m] Unmounted /var/lib/docker/aufs/mnt/...66a59451fe4cfd9f334ded4db2fb4cd.
+[[0;32m  OK  [0m] Unmounted /var/lib/docker/container...22e6285ae4acfc85c957c23e744/shm.
+[[0;32m  OK  [0m] Unmounted /var/lib/docker/aufs/mnt/...d71a7fc58fd1e9d799425dd844bcebf.
+[[0;32m  OK  [0m] Unmounted /var/lib/docker/container...d9345a52c6e963ebc340a528829/shm.
+[[0;32m  OK  [0m] Unmounted /var/lib/docker/container...125e23daa2301abdc8c0a0bdb2a/shm.
+[[0;32m  OK  [0m] Unmounted /var/lib/docker/aufs/mnt/...123ecd73719d15fba09045d24e2f3a6.
+[[0;32m  OK  [0m] Unmounted /var/lib/docker/aufs/mnt/...1a97cf234aef79dd3f853a51417cfdf.
+[[0;32m  OK  [0m] Stopped LXD - container startup/shutdown.
+[[0;32m  OK  [0m] Stopped LSB: Set the CPU Frequency Scaling governor to "ondemand".
+[[0;32m  OK  [0m] Stopped LSB: MD monitoring daemon.
+[[0;32m  OK  [0m] Stopped LSB: automatic crash report generation.
+[[0;32m  OK  [0m] Stopped LSB: VirtualBox Linux Additions.
+[[0;32m  OK  [0m] Stopped LSB: daemon to balance interrupts for SMP systems.
+[[0;32m  OK  [0m] Stopped LSB: Record successful boot for GRUB.
+[[0;32m  OK  [0m] Removed slice User Slice of ubuntu.
+         Stopping Login Service...
+[[0;32m  OK  [0m] Removed slice system-serial\x2dgetty.slice.
+[[0;32m  OK  [0m] Stopped /etc/rc.local Compatibility.
+[[0;32m  OK  [0m] Removed slice system-getty.slice.
+         Stopping Permit User Sessions...
+[[0;32m  OK  [0m] Stopped Login Service.
+[[0;32m  OK  [0m] Stopped Permit User Sessions.
+[[0;32m  OK  [0m] Stopped target Remote File Systems.
+[[0;32m  OK  [0m] Stopped target Remote File Systems (Pre).
+         Stopping Login to default iSCSI targets...
+[[0;32m  OK  [0m] Stopped target User and Group Name Lookups.
+[[0;32m  OK  [0m] Stopped Login to default iSCSI targets.
+         Stopping iSCSI initiator daemon (iscsid)...
+[[0;32m  OK  [0m] Stopped iSCSI initiator daemon (iscsid).
+[[0;32m  OK  [0m] Stopped target Network is Online.
