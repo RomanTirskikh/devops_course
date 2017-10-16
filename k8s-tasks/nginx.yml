@@ -5,7 +5,7 @@ metadata:
   labels:
     app: nginx
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: nginx
@@ -18,7 +18,25 @@ spec:
       - name: nginx
         image: nginx
         ports:
-        - containerPort: 80    
+        - containerPort: 80
+        volumeMounts:
+        - mountPath: "/usr/share/nginx/html"
+          name: myhtml
+        env:
+        - name: MYPOD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+#        command: ["printenv"]
+#        args: ["MYPOD_NAME"]
+#        command: ["/bin/sh"]
+#        args: ["-c", "/usr/share/nginx/html/env.sh > /usr/share/nginx/html/index.html && sleep 10 && exit 0"]
+      volumes:
+      - name: myhtml
+        persistentVolumeClaim:
+         claimName: pvc-nginx
+#      nodeSelector:
+#        labels: beta.kubernetes.io/master
 #        envFrom:
 #        - configMapRef:
 #            name: special-config
