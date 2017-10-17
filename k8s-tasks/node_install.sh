@@ -15,6 +15,5 @@ apt-get -y update && apt-get install -y git openjdk-8-jre docker.io kubeadm=1.8.
 
 kubeadm reset 
 #применяем join для присоединения нода к мастеру
-#$(cat /vagrant/kube.txt | grep "kubeadm join") --skip-preflight-checks
-
+#$(cat /vagrant/kube.txt | grep "kubeadm join") # --skip-preflight-checks-(есди не нелали kubeadm reset)
 sleep 3
